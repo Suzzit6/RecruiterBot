@@ -1,4 +1,4 @@
 Bot features
 resume parsing from google form 
 candidate details parsing from google form 
-interview scheduling  
+interview scheduling
