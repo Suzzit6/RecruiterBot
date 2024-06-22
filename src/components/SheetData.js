@@ -34,21 +34,24 @@ const auth = new google.auth.GoogleAuth({
   // console.log(getRows.data)
 
   const rows = getRows.data.values;
+  
 
-  if (rows.length > 1) {
-    const keys = rows[0].map(String);
-    const data = rows.slice(1).map(row => {
-      let obj = {};
-      keys.forEach((key, index) => {
-        
-        obj[key] = row[index];
+    if (rows.length > 1) {
+
+      const keys = rows[0];
+      const data = rows.slice(1).map(row => {
+        let obj = {};
+        keys.forEach((key, index) => {
+          obj[key] = row[index];
+        });
+        return obj;
       });
-      return obj;
-    });
-
-    console.log(data);
-  } else {
-    console.log("No data found");
-  }
+      console.log(data);
+      return data
+  
+    } else {
+      console.log("No data found");
+    }
+ 
 
 }
