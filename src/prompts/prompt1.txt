@@ -1,0 +1,33 @@
+Parse the following resume and extract key information into a JSON format. Include the following details:
+${resume}
+
+1. Personal Information: name, contact number, email, and location
+2. Work Experience: For each position, provide company name, candidate's role, and work duration
+3. Projects: List significant projects undertaken
+4. Education:
+   - Highest degree attained
+   - Field of study
+   - University/institution names
+   - Graduation dates
+   - GPA (if provided)
+5. Skills:
+   - Technical skills
+   - Soft skills
+   - Language proficiencies
+6. Certifications and Achievements:
+   - Awards and hackathons
+   - Professional certifications
+7. Tools and Technologies:
+   - Software proficiency
+   - Programming languages
+8. Social Links: LinkedIn, GitHub, portfolio
+9. Gaps in Employment: Identify any significant gaps
+
+After extracting this information, compare the candidate's profile to the following job requirements:
+${job_requirement}
+
+Based on the comparison, rate the candidate's suitability for the role on a scale of 1 to 10. Include this rating in the JSON output.
+
+Provide the extracted information and suitability rating in a single, well-structured JSON format.
+
+

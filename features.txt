@@ -1,11 +1,41 @@
 Bot features
 resume parsing from google form {
    1. take the resume
-   2. 
+   2. extract name,contact,email,location info from resume
+   3. extract previous work experience of candidate (comapany name , candidate role , work duration)
+   4. projects of candidate
+
+   5.education {
+    Highest degree attained
+    Field of study
+    University/institution names
+    Graduation dates
+    GPA (if provided)
+   }
+
+   6.Skills{ 
+    Technical skills
+    Soft skills
+    Language proficiencies
+   }
+   7. Certifications and Achievements {
+    awards , hackathons
+    Professional certifications
+
+   }
+   8.Tools and technologies{
+     Software proficiency
+     Programming languages
+   }
+
+   9. social links {
+    linkdin,github , portfolio
+   }
+   
+   10.Gaps in employment
+   11. rate overall candidate 
 
 }
-
-
 
 candidate details parsing from google form 
 interview scheduling

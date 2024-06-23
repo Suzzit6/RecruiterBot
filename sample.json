@@ -1,0 +1,195 @@
+[
+    {
+        "name": "Sujit Mishra",
+        "contact": {
+            "phone": "8263954372",
+            "email": "Mishrasujit409@gmail.com",
+            "location": "Vasai, India"
+        },
+        "experience": [
+            {
+                "title": "Image Analyzer Using GCP",
+                "company": null,
+                "duration": null,
+                "description": "During my internship at a traditional clothing design company, I developed an AI tool using Google Cloud's Vertex and Vision API, built with Node.js. This tool analyzes design images to identify colors and patterns, saving us a lot of time. I trained the AI to recognize specific colors and patterns from a list we provided. Now, instead of doing this manually, the AI does it for us quickly and accurately. This has made our work much easier and faster, while still keeping our traditional design approach intact. demo - https://youtu.be/2mzbC23EFCo"
+            },
+            {
+                "title": "NovaBlog",
+                "company": null,
+                "duration": null,
+                "description": "NovaBlog is a user-friendly blog application is in the developing phase using node.js featuring a robust backend powered by Express.js and Mongoose for MongoDB integration. Implemented secure authentication and password hashing using crypto. Implemented role based authorization controlled access of regular users and admin. Yet to enable users to create, edit and delete their blog posts which is an engaging and interactive user experience. This project underscores proficiency in a full-stack development environment and showcases a strong foundation in web application design and implementation Link to site - https://blogify-zvgs.onrender.com/"
+            },
+            {
+                "title": "TinyLink",
+                "company": null,
+                "duration": null,
+                "description": "TinyLink is a web application designed to simplify the process of creating short URLs, commonly known as URL shortening. Developed using Node.js and Express, this project allows users to generate and even track compact and easy-to- share links from longer URLs. Users can create accounts, log in securely, and manage their generated short links. Implemented User authentication using express middleware. Utilized MongoDB to store generated short URLs, including visit history and the user who created each link. Designed a web interface using the EJS templating engine, allowing users to easily generate and manage short links. Extended the functionality to Discord by implementing a Discord bot version of TinyLink. Link to site - https://tinylinkbysuzzit6.onrender.com/"
+            },
+            {
+                "title": "PHP Full fledged website",
+                "company": null,
+                "duration": null,
+                "description": "Developed a comprehensive website for a Delhi-based digital marketing company using PHP, highlighting the company's services and expertise in the field. Implemented a backend system with features such as a contact form, enabling seamless communication with potential clients. Achieved streamlined functionality, ensuring inquiries are promptly directed to the owner's email for efficient follow-up and business growth. demo - https://reliantinfotech69.000webhostapp.com/"
+            }
+        ],
+        "projects": [
+            {
+                "name": "Blog App",
+                "description": null,
+                "link": null
+            },
+            {
+                "name": "Short-url generator",
+                "description": null,
+                "link": null
+            }
+        ],
+        "education": {
+            "degree": "Btech",
+            "field": null,
+            "university": "Atharva college of engineering",
+            "graduation_date": "2022",
+            "gpa": null
+        },
+        "skills": [
+            "Express.js",
+            "MongoDB",
+            "Javascript",
+            "Node.js",
+            "HTML &CSS",
+            "PHP - beginner"
+        ],
+        "languages": [
+            "English"
+        ],
+        "certifications": [],
+        "tools": [],
+        "social_links": {
+            "github": "https://github.com/Suzzit6",
+            "linkedin": null,
+            "portfolio": null
+        },
+        "gaps": [],
+        "rating": null
+    },
+    {
+        "Personal Information": {
+            "name": "Sujit Mishra",
+            "contact number": "8263954372",
+            "email": "Mishrasujit409@gmail.com",
+            "location": "Vasai, India"
+        },
+        "Work Experience": [],
+        "Projects": [
+            {
+                "project name": "Image Analyzer Using GCP",
+                "description": "During my internship at a traditional clothing design company, I developed an AI tool using Google Cloud's Vertex and Vision API, built with Node.js. This tool analyzes design images to identify colors and patterns, saving us a lot of time. I trained the AI to recognize specific colors and patterns from a list we provided. Now, instead of doing this manually, the AI does it for us quickly and accurately. This has made our work much easier and faster, while still keeping our traditional design approach intact. demo  -     https://youtu.be/2mzbC23EFCo"
+            },
+            {
+                "project name": "Blog App",
+                "description": "NovaBlog is a user-friendly blog application is in the developing phase using node.js featuring a robust backend powered by Express.js and Mongoose for MongoDB integration. Implemented secure authentication and password hashing using crypto. Implemented role based authorization controlled access of regular users and admin. Yet to enable users to create, edit and delete their blog posts which is an engaging and interactive user experience. This project underscores proficiency in a full-stack development environment and showcases a strong foundation in web application design and implementation  Link to site - https://blogify-zvgs.onrender.com/"
+            },
+            {
+                "project name": "Short-url generator",
+                "description": "TinyLink is a web application designed to simplify the process of creating short URLs, commonly known as URL shortening. Developed using Node.js and Express, this project allows users to generate and even track compact and easy-to- share links from longer URLs. Users can create accounts, log in securely, and manage their generated short links. Implemented User authentication using express middleware. Utilized MongoDB to store generated short URLs, including visit history and the user who created each link. Designed a web interface using the EJS templating engine, allowing users to easily generate and manage short links. Extended the functionality to Discord by implementing a Discord bot version of TinyLink. Link to site - https://tinylinkbysuzzit6.onrender.com/"
+            },
+            {
+                "project name": "PHP Full fledged website",
+                "description": "Developed a comprehensive website for a Delhi-based digital marketing company using PHP, highlighting the company's services and expertise in the field. Implemented a backend system with features such as a contact form, enabling seamless communication with potential clients. Achieved streamlined functionality, ensuring inquiries are promptly directed to the owner's email for efficient follow-up and business growth. demo - https://reliantinfotech69.000webhostapp.com/"
+            }
+        ],
+        "Education": {
+            "Highest degree attained": "Btech",
+            "Field of study": null,
+            "University/institution names": "Atharva college of engineering",
+            "Graduation dates": "2022",
+            "GPA": null
+        },
+        "Skills": {
+            "Technical skills": [
+                "Web development",
+                "Express.js",
+                "MongoDB",
+                "Javascript",
+                "Node.js",
+                "HTML",
+                "CSS",
+                "PHP"
+            ],
+            "Soft skills": [],
+            "Language proficiencies": [
+                "English"
+            ]
+        },
+        "Certifications and Achievements": [],
+        "Tools and Technologies": [],
+        "Social Links": {
+            "LinkedIn": null,
+            "GitHub": "https://github.com/Suzzit6",
+            "portfolio": null
+        },
+        "Gaps in Employment": [],
+        "Suitability Rating": 3
+    },
+
+    
+    {
+        "Personal Information": {
+            "name": "Sujit Mishra",
+            "contact number": "8263954372",
+            "email": "Mishrasujit409@gmail.com",
+            "location": "Vasai, India"
+        },
+        "Work Experience": [],
+        "Projects": [
+            {
+                "project name": "Image Analyzer Using GCP",
+                "description": "During my internship at a traditional clothing design company, I developed an AI tool using Google Cloud's Vertex and Vision API, built with Node.js. This tool analyzes design images to identify colors and patterns, saving us a lot of time. I trained the AI to recognize specific colors and patterns from a list we provided. Now, instead of doing this manually, the AI does it for us quickly and accurately. This has made our work much easier and faster, while still keeping our traditional design approach intact. demo - https://youtu.be/2mzbC23EFCo"
+            },
+            {
+                "project name": "Blog App",
+                "description": "NovaBlog is a user-friendly blog application is in the developing phase using node.js featuring a robust backend powered by Express.js and Mongoose for MongoDB integration. Implemented secure authentication and password hashing using crypto. Implemented role based authorization controlled access of regular users and admin. Yet to enable users to create, edit and delete their blog posts which is an engaging and interactive user experience. This project underscores proficiency in a full-stack development environment and showcases a strong foundation in web application design and implementation Link to site - https://blogify-zvgs.onrender.com/"
+            },
+            {
+                "project name": "Short-url generator",
+                "description": "TinyLink is a web application designed to simplify the process of creating short URLs, commonly known as URL shortening. Developed using Node.js and Express, this project allows users to generate and even track compact and easy-to- share links from longer URLs. Users can create accounts, log in securely, and manage their generated short links. Implemented User authentication using express middleware. Utilized MongoDB to store generated short URLs, including visit history and the user who created each link. Designed a web interface using the EJS templating engine, allowing users to easily generate and manage short links. Extended the functionality to Discord by implementing a Discord bot version of TinyLink. Link to site - https://tinylinkbysuzzit6.onrender.com/"
+            },
+            {
+                "project name": "PHP Full fledged website",
+                "description": "Developed a comprehensive website for a Delhi-based digital marketing company using PHP, highlighting the company's services and expertise in the field. Implemented a backend system with features such as a contact form, enabling seamless communication with potential clients. Achieved streamlined functionality, ensuring inquiries are promptly directed to the owner's email for efficient follow-up and business growth. demo - https://reliantinfotech69.000webhostapp.com/"
+            }
+        ],
+        "Education": {
+            "Highest degree attained": "Btech",
+            "Field of study": null,
+            "University/institution names": "Atharva college of engineering",
+            "Graduation dates": "2022",
+            "GPA": null
+        },
+        "Skills": {
+            "Technical skills": [
+                "Web development",
+                "Express.js",
+                "MongoDB",
+                "Javascript",
+                "Node.js",
+                "HTML",
+                "CSS",
+                "PHP"
+            ],
+            "Soft skills": [],
+            "Language proficiencies": [
+                "English"
+            ]
+        },
+        "Certifications and Achievements": [],
+        "Tools and Technologies": [],
+        "Social Links": {
+            "LinkedIn": null,
+            "GitHub": "https://github.com/Suzzit6",
+            "portfolio": null
+        },
+        "Gaps in Employment": [],
+        "Suitability Rating": 3
+    }
+]

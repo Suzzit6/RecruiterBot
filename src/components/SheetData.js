@@ -38,15 +38,15 @@ const auth = new google.auth.GoogleAuth({
 
     if (rows.length > 1) {
 
-      const keys = rows[0];
+      const keys = rows[0].map(String);
       const data = rows.slice(1).map(row => {
         let obj = {};
         keys.forEach((key, index) => {
+        
           obj[key] = row[index];
         });
         return obj;
       });
-      console.log(data);
       return data
   
     } else {

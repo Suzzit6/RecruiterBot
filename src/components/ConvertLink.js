@@ -10,6 +10,8 @@
 // }
 
 export default function ConvertLink(viewableLink){
+    
+    const baseUrl = 'https://drive.google.com/uc?export=download&id=';
 
     const regex = /\/d\/([^\/]+)/;
 

@@ -1,0 +1,49 @@
+So basically below is the details i want from the input (it is a resume of a candidate)
+
+
+
+
+   2. extract name,contact,email,location info from resume
+   3. extract previous work experience of candidate (comapany name , candidate role , work duration)
+   4. projects of candidate
+
+   5.education {
+    Highest degree attained
+    Field of study
+    University/institution names
+    Graduation dates
+    GPA (if provided)
+   }
+
+   6.Skills{ 
+    Technical skills
+    Soft skills
+    Language proficiencies
+   }
+   7. Certifications and Achievements {
+    awards , hackathons
+    Professional certifications
+
+   }
+   8.Tools and technologies{
+     Software proficiency
+     Programming languages
+   }
+
+   9. social links {
+    linkdin,github , portfolio
+   }
+   
+   10.Gaps in employment
+
+this candidates info  should be in json format  .
+
+// Companies job requirement here
+${job_requirement}
+
+Now based all the above factors rate the candidate on the scale of 10 like whether he is suitable for the role add this rating to the json format of the candidate info.
+
+
+
+
+"Parse the following resume and extract key information into a JSON format. ${resume} Include the following details:\n\n\n1. Personal Information: name, contact number, email, and location\n2. Work Experience: For each position, provide company name, candidate's role, and work duration\n3. Projects: List significant projects undertaken\n4. Education:\n   - Highest degree attained\n   - Field of study\n   - University/institution names\n   - Graduation dates\n   - GPA (if provided)\n5. Skills:\n   - Technical skills\n   - Soft skills\n   - Language proficiencies\n6. Certifications and Achievements:\n   - Awards and hackathons\n   - Professional certifications\n7. Tools and Technologies:\n   - Software proficiency\n   - Programming languages\n8. Social Links: LinkedIn, GitHub, portfolio\n9. Gaps in Employment: Identify any significant gaps\n\nAfter extracting this information, compare the candidate's profile to the following job requirements:\n ${job_requirement}  \nBased on the comparison, rate the candidate's suitability for the role on a scale of 1 to 10. Include this rating in the JSON output.\n\nProvide the extracted information and suitability rating in a single, well-structured JSON format."
