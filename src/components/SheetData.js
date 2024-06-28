@@ -1,10 +1,8 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { JWT } from 'google-auth-library';
-import { google } from 'googleapis';
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { JWT } = require('google-auth-library');
+const { google } = require('googleapis');
 
-
-
-export default  async function accessSpreadsheet(SheetID) {
+module.exports =  async function accessSpreadsheet(SheetID) {
 
 
 const auth = new google.auth.GoogleAuth({

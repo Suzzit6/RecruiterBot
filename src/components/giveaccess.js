@@ -1,18 +1,26 @@
-import TelegramBot from "node-telegram-bot-api";
-import extractSheetId from "./ExtractID.js";
-import ConvertLink from "./ConvertLink.js";
-import { runChat } from "../AiComponents/arrangeSheetValues.js";
-import { ParseResume } from "../AiComponents/ResumeParser.js";
-import LocalSession from "telegraf-session-local";
+const TelegramBot = require("node-telegram-bot-api");
+const extractSheetId = require("./ExtractID.js");
+const ConvertLink = require("./ConvertLink.js");
+const runChat = require('../AiComponents/arrangeSheetValues.js');
+const  ParseResume  = require("../AiComponents/ResumeParser.js");
+const LocalSession = require("telegraf-session-local");
+const { RateLimiter } = require("limiter");
 
-import accessSpreadsheet from "./SheetData.js";
-import UpdateSheet from "./UpdateSheet.js"
-import { Telegraf } from "telegraf";
+
+const accessSpreadsheet = require("./SheetData.js");
+const UpdateSheet = require("./UpdateSheet.js");
+const { Telegraf } = require("telegraf");
+
 
 const localSession = new LocalSession({
   database: "session_db.json",
   property: "session",
   storage: LocalSession.storageMemory,
+});
+
+const limiter = new RateLimiter({
+  tokensPerInterval: 3,  // number of requests
+  interval: "second"      // per second
 });
 
 
@@ -40,7 +48,7 @@ bot.on("text", async (ctx) => {
   switch (currentState) {
     case State.WAITING_FOR_SHEET:
       await handleSheetLink(ctx);
-      break;
+      break;a
     case State.WAITING_FOR_JOB_REQ:
       await handleJobRequirement(ctx);
       break;
@@ -88,32 +96,58 @@ async function handleJobRequirement(ctx) {
   try {
     const jobRequirement = ctx.message.text;
     console.log("jobRequirement  " + jobRequirement);
-
     const { modifiedSheet } = ctx.session;
-    console.log("modifiedSheet  " + {modifiedSheet});
+    const batchSize = 3;
+    
+    for (let i = 0; i < modifiedSheet.length ; i += batchSize) {
+        const batch = modifiedSheet.slice(i, i + batchSize);
+        
+        const batchPromises = batch.map(async (row) => {
+          await limiter.removeTokens(1);
+          const rawUrl = row.resume;
+          const candidEmail = row.Email
+          const candidPhone = row.Phone
+          const candidName = row.Name
+    
+          const resumeUrl = ConvertLink(rawUrl);
+    
+          const parsedResume = await ParseResume(resumeUrl, jobRequirement);
+    
+          const updated_sheet = UpdateSheet(ctx,parsedResume,candidName,candidPhone,candidEmail)
+          // return {
+          //   name: parsedResume.personal_information.name,
+          //   rating: parsedResume.suitability_rating
+          // };
+      
+        })
+      
+    
+      // const candidatePromises = modifiedSheet.map( async (row)=>{
+       
+        
+         
+        
+      // })
 
-    for (const row of modifiedSheet) {
-      const rawUrl = row.resume;
-      const candidEmail = row.Email
-      const candidPhone = row.Phone
-      const candidName = row.Name
+    // for (const row of modifiedSheet) {
+    // }
+    const results = await Promise.all(batchPromises);
+    
+    // for (const result of results) {
+    //   await ctx.reply(`Candidate: ${parsedResume.personal_information.name}`);
+    //   await ctx.reply(`Suitability Rating: ${parsedResume.suitability_rating}`);
+    //   await ctx.reply("---");
+      
+    // }
 
-      const resumeUrl = ConvertLink(rawUrl);
 
-      const parsedResume = await ParseResume(resumeUrl, jobRequirement);
-
-
-      await ctx.reply(`Candidate: ${parsedResume.personal_information.name}`);
-      await ctx.reply(`Suitability Rating: ${parsedResume.suitability_rating}`);
-      await ctx.reply("---");
-
-      const updated_sheet = UpdateSheet(ctx,parsedResume,candidName,candidPhone,candidEmail)
-
-    }
-
+    await ctx.reply(`Processed batch ${Math.floor(i/batchSize) + 1}`);
+}
+    
     ctx.reply("All candidates processed. Check the CandidateLists Sheet for the List of all the candidates");
     ctx.session.state = State.IDLE;
     delete ctx.session.modifiedSheet;
+
   } catch (error) {
     console.error("Error parsing resumes:", error);
     ctx.reply("An error occurred while parsing resumes.Make sure all the Resumes in the Sheet are in PDF format.");

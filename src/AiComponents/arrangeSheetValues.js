@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-import fs from 'fs';
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+const fs = require('fs');
 
   const apiKey = "AIzaSyAAO13jZCuYbZwePj5K_JQfuJftuOVHKpY";
   const genAI = new GoogleGenerativeAI(apiKey);
@@ -41,7 +41,7 @@ import fs from 'fs';
   };
 
   
-  export  async function runChat(input) {
+  module.exports = async function runChat(input) {
     const chatSession = model.startChat({
       generationConfig,
     });

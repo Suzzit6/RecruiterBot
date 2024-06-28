@@ -1,13 +1,14 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { extractTextFromPDF } from "../components/PdfToText.js";
-import axios from 'axios';
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+const fs = require('fs');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const  extractTextFromPDF  = require("../components/PdfToText.js");
+const axios = require('axios');
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 
 
@@ -62,7 +63,7 @@ const __dirname = path.dirname(__filename);
   }
 
 
-  export  async function ParseResume(resume_url,job_requirement) {
+  module.exports =  async function ParseResume(resume_url,job_requirement) {
 
     const fileName = `resume${Date.now()}.pdf`;
     const localPDFpath = path.join(__dirname,fileName)

@@ -1,4 +1,4 @@
- function extractSheetId(url) {
+module.exports = function extractSheetId(url) {
 
     const regex = /\/d\/([a-zA-Z0-9-_]+)\/edit/;
 
@@ -7,6 +7,4 @@
     return match ? match[1] : null;
 }
 
-
-export default extractSheetId
 
