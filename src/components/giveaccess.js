@@ -5,6 +5,7 @@ const runChat = require('../AiComponents/arrangeSheetValues.js');
 const  ParseResume  = require("../AiComponents/ResumeParser.js");
 const LocalSession = require("telegraf-session-local");
 const { RateLimiter } = require("limiter");
+const ParseResumeDistributed = require('../AiComponents/GenAiinstances.js')
 
 
 const accessSpreadsheet = require("./SheetData.js");
@@ -19,12 +20,13 @@ const localSession = new LocalSession({
 });
 
 const limiter = new RateLimiter({
-  tokensPerInterval: 3,  // number of requests
-  interval: "second"      // per second
+  tokensPerInterval: 2,  // number of requests
+  interval: "second",   // per second
 });
 
 
-const token = "7163115626:AAGqRVKo1x0_NqDUuSWmPBW828r8ZTGoL2c";
+
+const token = "7363730991:AAGfTnbcJZJK0Gp0MIgU8bZAwXCcK8U-JnY";
 
 const bot = new Telegraf(token, { polling: true });
 bot.use(localSession.middleware());
@@ -42,6 +44,7 @@ bot.command("start", (ctx) => {
 });
 
 bot.on("text", async (ctx) => {
+  
   const userId = ctx.from.id;
   const currentState = ctx.session.state || State.IDLE;
 
@@ -83,6 +86,7 @@ async function handleSheetLink(ctx) {
     ctx.reply(
       "Sheet data processed successfully. Now, please provide your job requirements"
     );
+    
   } catch (error) {
     console.error("Error processing sheet:", error);
     ctx.reply(
@@ -97,41 +101,60 @@ async function handleJobRequirement(ctx) {
     const jobRequirement = ctx.message.text;
     console.log("jobRequirement  " + jobRequirement);
     const { modifiedSheet } = ctx.session;
-    const batchSize = 3;
+    ctx.reply("Starting to process resumes. This may take some time...");
+
     
-    for (let i = 0; i < modifiedSheet.length ; i += batchSize) {
-        const batch = modifiedSheet.slice(i, i + batchSize);
+    // for (let i = 0; i < modifiedSheet.length ; i += batchSize) {
+        // const batch = modifiedSheet.slice(i, i + batchSize);
         
-        const batchPromises = batch.map(async (row) => {
-          await limiter.removeTokens(1);
-          const rawUrl = row.resume;
-          const candidEmail = row.Email
-          const candidPhone = row.Phone
-          const candidName = row.Name
-    
-          const resumeUrl = ConvertLink(rawUrl);
-    
-          const parsedResume = await ParseResume(resumeUrl, jobRequirement);
-    
-          const updated_sheet = UpdateSheet(ctx,parsedResume,candidName,candidPhone,candidEmail)
+        // const batchPromises = batch.map(async (row) => {
+        //   await limiter.removeTokens(1);
+          
           // return {
-          //   name: parsedResume.personal_information.name,
-          //   rating: parsedResume.suitability_rating
-          // };
+            //   name: parsedResume.personal_information.name,
+            //   rating: parsedResume.suitability_rating
+            // };
+            
+          // })
+          
+          
+          const candidatePromises = modifiedSheet.map( async (row,index)=>{
+
+            const rawUrl = row.resume;
+            const candidEmail = row.Email
+            const candidPhone = row.Phone
+            const candidName = row.Name
+            const resumeUrl = ConvertLink(rawUrl);
       
-        })
+            try {
+              
+              const parsedResume = await ParseResumeDistributed(resumeUrl, jobRequirement);
+              console.log(parsedResume)
+              const updated_sheet = UpdateSheet(ctx,parsedResume,candidName,candidPhone,candidEmail);
+  
+              if ((index + 1) % 5 === 0 || index === modifiedSheet.length - 1) {
+                await ctx.reply(`Processed ${index + 1} out of ${modifiedSheet.length} resumes`);
+              }
       
-    
-      // const candidatePromises = modifiedSheet.map( async (row)=>{
-       
-        
-         
-        
-      // })
+              // return {
+              //   name: parsedResume.personal_information.name,
+              //   rating: parsedResume.suitability_rating
+              // };
+            } catch (error) {
+              ctx.reply(`error parsing in resume at ${rawUrl} of ${candidName} `);
+              console.log(error)
+  
+              return {
+                name:candidName,
+                rating:"error while parsing"
+              }
+              
+            }
+      })
 
     // for (const row of modifiedSheet) {
     // }
-    const results = await Promise.all(batchPromises);
+    const results = await Promise.all(candidatePromises);
     
     // for (const result of results) {
     //   await ctx.reply(`Candidate: ${parsedResume.personal_information.name}`);
@@ -139,12 +162,8 @@ async function handleJobRequirement(ctx) {
     //   await ctx.reply("---");
       
     // }
-
-
-    await ctx.reply(`Processed batch ${Math.floor(i/batchSize) + 1}`);
-}
+// }
     
-    ctx.reply("All candidates processed. Check the CandidateLists Sheet for the List of all the candidates");
     ctx.session.state = State.IDLE;
     delete ctx.session.modifiedSheet;
 

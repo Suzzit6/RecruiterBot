@@ -31,47 +31,52 @@ module.exports =  async function UpdateSheet(ctx,Candidate,name,phone,email) {
            return true
       })
       
-
-      if (!sheetExists) {
-        await googleSheets.spreadsheets.batchUpdate({
-          spreadsheetId: spreadsheetId,
-          resource: {
-            requests: [
-              {
-                addSheet: {
-                  properties: {
-                    title: "CandidateLists",
-                  },
-                },
+try {
+  
+  if (!sheetExists) {
+    googleSheets.spreadsheets.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: {
+        requests: [
+          {
+            addSheet: {
+              properties: {
+                title: "CandidateLists",
               },
-            ],
+            },
           },
-        });
-        console.log(` CandidateLists created`);
-      }
-      
-      const values = [
-        [
-          Candidate.personal_information.name || name,
-          Candidate.personal_information.contact_number || phone ,
-          Candidate.personal_information.email || email, 
-          Candidate.suitability_rating, 
-          Candidate.reason 
-        ]
-      ]
-       if (values) {
-        
-       
-      await googleSheets.spreadsheets.values.append({
-        auth,
-        spreadsheetId,
-        range: "CandidateLists!A:E",
-        valueInputOption: "USER_ENTERED",
-        resource: {
-          values: values,
-        },
-      });
-    }
+        ],
+      },
+    });
+    console.log(` CandidateLists created`);
+  }
+  
+  const values = [
+    [
+      Candidate.personal_information.name === true ? Candidate.personal_information.name : name,
+      Candidate.personal_information.contact_number === true ? Candidate.personal_information.contact_number : phone  ,
+      Candidate.personal_information.email === true ? Candidate.personal_information.email : email, 
+      Candidate.suitability_rating,
+      Candidate.reason 
+    ]
+  ]
+   if (values) {
+    
+   
+  await googleSheets.spreadsheets.values.append({
+    auth,
+    spreadsheetId,
+    range: "CandidateLists!A:E",
+    valueInputOption: "USER_ENTERED",
+    resource: {
+      values: values,
+    },
+  });
+}
+} catch (error) {
+  console.log(error)
+  console.log(name,phone,email)
+}
   
     }
   

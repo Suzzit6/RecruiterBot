@@ -1,7 +1,6 @@
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
 const fs = require('fs');
 const path = require('path');
-const { fileURLToPath } = require('url');
 const  extractTextFromPDF  = require("../components/PdfToText.js");
 const axios = require('axios');
 
@@ -12,8 +11,8 @@ const axios = require('axios');
 
 
 
-  const apiKey = "AIzaSyAAO13jZCuYbZwePj5K_JQfuJftuOVHKpY";
-  const genAI = new GoogleGenerativeAI(apiKey);
+  // const apiKey = "AIzaSyAAO13jZCuYbZwePj5K_JQfuJftuOVHKpY";
+
 
   
   const safetySettings = [
@@ -34,26 +33,14 @@ const axios = require('axios');
       threshold: HarmBlockThreshold.BLOCK_NONE,
     },
   ];
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-pro",
-    safetySettings
-  });
   
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    response_mime_type: "application/json"
-  };
-
   async function downloadPDF(url, localPath) {
     const response = await axios({
       method: 'get',
       url: url,
       responseType: 'stream'
     });
-  
+    
     return new Promise((resolve, reject) => {
       const writer = fs.createWriteStream(localPath);
       response.data.pipe(writer);
@@ -61,13 +48,27 @@ const axios = require('axios');
       writer.on('error', reject);
     });
   }
+  
+  
+  module.exports =  async function ParseResume(resume_url,job_requirement,genAI) {
+    
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-pro",
+      safetySettings
+    });
+    
+    const generationConfig = {
+      temperature: 1,
+      topP: 0.95,
+      topK: 64,
+      maxOutputTokens: 8192,
+      response_mime_type: "application/json"
+    };
 
-
-  module.exports =  async function ParseResume(resume_url,job_requirement) {
 
     const fileName = `resume${Date.now()}.pdf`;
-    const localPDFpath = path.join(__dirname,fileName)
-
+    const localPDFpath = path.join(__dirname,fileName);
+    
     await downloadPDF(resume_url, localPDFpath)
     const resume = await extractTextFromPDF(localPDFpath)
 
@@ -126,8 +127,9 @@ const axios = require('axios');
 }`
 
     const result = await chatSession.sendMessage(prompt);
+    // console.log(result.response.text())
     const jsonResult = JSON.parse(result.response.text());
-    console.log(jsonResult);
+    // console.log(jsonResult);
     return jsonResult;
   }
   
