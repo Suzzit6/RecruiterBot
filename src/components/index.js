@@ -6,6 +6,7 @@ const  ParseResume  = require("../AiComponents/ResumeParser.js");
 const LocalSession = require("telegraf-session-local");
 const { RateLimiter } = require("limiter");
 const ParseResumeDistributed = require('../AiComponents/GenAiinstances.js')
+const dotenv = require('dotenv').config()
 
 
 const accessSpreadsheet = require("./SheetData.js");
@@ -26,7 +27,7 @@ const limiter = new RateLimiter({
 
 
 
-const token = "7363730991:AAGfTnbcJZJK0Gp0MIgU8bZAwXCcK8U-JnY";
+const token = process.env.token;
 
 const bot = new Telegraf(token, { polling: true });
 bot.use(localSession.middleware());

@@ -4,20 +4,22 @@ const {
   HarmBlockThreshold,
 } = require("@google/generative-ai");
 const ParseResume = require("./ResumeParser.js");
+const dotenv = require('dotenv').config()
 
-const API_KEY_1 = "AIzaSyAAO13jZCuYbZwePj5K_JQfuJftuOVHKpY";
 
-const API_KEY_2 = "AIzaSyDCZPTzDoz6PuBLhlcNWc3gHP4imWiLmBE";
+// const API_KEY_1 = "AIzaSyAAO13jZCuYbZwePj5K_JQfuJftuOVHKpY";
 
-const API_KEY_3 = "AIzaSyBxqgbJJEAWeo7C5VrHo7QUxwF7i4Y38P0";
+// const API_KEY_2 = "AIzaSyDCZPTzDoz6PuBLhlcNWc3gHP4imWiLmBE";
 
-const API_KEY_4 = "AIzaSyB71sTyoWeR2ngXmj5uc3q9C7t-bOCXrHc";
+// const API_KEY_3 = "AIzaSyBxqgbJJEAWeo7C5VrHo7QUxwF7i4Y38P0";
+
+// const API_KEY_4 = "AIzaSyB71sTyoWeR2ngXmj5uc3q9C7t-bOCXrHc";
 
 const genAIInstances = [
-  new GoogleGenerativeAI(API_KEY_1),
-  new GoogleGenerativeAI(API_KEY_2),
-  new GoogleGenerativeAI(API_KEY_3),
-  new GoogleGenerativeAI(API_KEY_4),
+  new GoogleGenerativeAI(process.env.API_KEY_1),
+  new GoogleGenerativeAI(process.env.API_KEY_2),
+  new GoogleGenerativeAI(process.env.API_KEY_3),
+  new GoogleGenerativeAI(process.env.API_KEY_4),
 ];
 
 let currentGenAIIndex = 0;
