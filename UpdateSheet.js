@@ -4,10 +4,7 @@ const google = require("googleapis").google;
 
 module.exports = async function UpdateSheet(
   ctx,
-  Candidate,
-  name,
-  phone,
-  email
+  candidatePromises
 ) {
   const auth = new google.auth.GoogleAuth({
     keyFile: "token.json",
@@ -47,39 +44,41 @@ module.exports = async function UpdateSheet(
           ],
         },
       });
-      console.log(` CandidateLists created`);
+      console.log(`CandidateLists created`);
     }
+    const resolvedCandidates = await Promise.all(candidatePromises);
+    console.log("candidatePromises ",candidatePromises)
 
-    const values = [
-      [
-        Candidate.personal_information.name === true
-          ? Candidate.personal_information.name
-          : name,
-        Candidate.personal_information.contact_number === true
-          ? Candidate.personal_information.contact_number
-          : phone,
-        Candidate.personal_information.email === true
-          ? Candidate.personal_information.email
-          : email,
-        Candidate.suitability_rating,
-        Candidate.reason,
-      ],
-    ];
-    if (values) {
-      await googleSheets.spreadsheets.values.append({
-        auth,
-        spreadsheetId,
-        range: "CandidateLists!A:E",
-        valueInputOption: "USER_ENTERED",
-        resource: {
-          values: values,
-        },
-      });
-    }
+// Now `resolvedCandidates` is an array of actual candidate data, not promises
+const singleCandidate = resolvedCandidates.map(async(candidate) => {
+  console.log("Candidate", candidate);
+  console.log("parsedResume", candidate.parsedResume);
+  console.log("name", candidate.parsedResume[0]?.personal_information.name);
+
+  const values = [
+    [
+      candidate.parsedResume[0]?.personal_information.name || candidate.name,
+      candidate.parsedResume[0]?.personal_information.contact_number || candidate.phone,
+      candidate.parsedResume[0]?.personal_information.email || candidate.email,
+      candidate.parsedResume[0]?.suitability_rating,
+      candidate.parsedResume[0]?.reason,
+    ],
+  ];
+      if (values) {
+        await googleSheets.spreadsheets.values.append({
+          auth,
+          spreadsheetId,
+          range: "CandidateLists!A:E",
+          valueInputOption: "USER_ENTERED",
+          resource: {
+            values: values,
+          },
+        });
+      }
+    })
+
   } catch (error) {
     console.log(error);
     console.log(name, phone, email);
-    
   }
-
 };

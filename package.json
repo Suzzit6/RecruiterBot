@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@google/generative-ai": "^0.13.0",
+    "async-limit": "^0.1.0",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "google-auth-library": "^9.11.0",
@@ -8,6 +9,7 @@
     "googleapis": "^140.0.0",
     "limiter": "^2.1.0",
     "node-telegram-bot-api": "^0.66.0",
+    "p-limit": "^6.1.0",
     "p-timeout": "^6.1.2",
     "patch-package": "^8.0.0",
     "pdf-parse": "^1.1.1",

@@ -7,6 +7,7 @@ const LocalSession = require("telegraf-session-local");
 const { RateLimiter } = require("limiter");
 const ParseResumeDistributed = require("../AiComponents/GenAiinstances.js");
 const dotenv = require("dotenv").config();
+const asyncLimit = require("async-limit");
 
 const FilterCandids = require("./filter.js");
 const accessSpreadsheet = require("./SheetData.js");
@@ -103,7 +104,10 @@ async function handleJobRequirement(ctx) {
     console.log("jobRequirement  " + jobRequirement);
     const { modifiedSheet } = ctx.session;
     ctx.reply("Starting to process resumes. This may take some time...");
-    console.log(modifiedSheet)
+    console.log(modifiedSheet);
+    const pLimit = (await import("p-limit")).default;
+    const limit = pLimit(14);
+    const startTime = Date.now(); // Capture start time
 
     const candidatePromises = modifiedSheet.map(async (row, index) => {
       const rawUrl = row.resume;
@@ -111,26 +115,34 @@ async function handleJobRequirement(ctx) {
       const candidPhone = row.Phone;
       const candidName = row.Name;
       const resumeUrl = ConvertLink(rawUrl);
+      const parsedResume = [];
 
       try {
-        const parsedResume = await ParseResumeDistributed(
-          resumeUrl,
-          jobRequirement
-        );
-        console.log(parsedResume);
-        const updated_sheet = UpdateSheet(
-          ctx,
-          parsedResume,
-          candidName,
-          candidPhone,
-          candidEmail
-        );
+        const storeParsedData = async (resumeUrl, job_requirement) => {
+          try {
+            const result = await ParseResumeDistributed(
+              resumeUrl,
+              job_requirement
+            );
+            parsedResume.push(result); // Store each result in the array
+          } catch (error) {
+            console.error("Error while parsing resume:", error);
+          }
+        };
 
-        if ((index + 1) % 5 === 0 || index === modifiedSheet.length - 1) {
-          await ctx.reply(
-            `Processed ${index + 1} out of ${modifiedSheet.length} resumes`
-          );
-        }
+        // const parsedResume = await ParseResumeDistributed(
+        //   resumeUrl,
+        //   jobRequirement
+        // );
+        await limit(() => storeParsedData(resumeUrl, jobRequirement));
+
+        console.log(parsedResume);
+        return {
+          name: candidName,
+          Email: candidEmail,
+          Phone: candidPhone,
+          parsedResume,
+        };
       } catch (error) {
         ctx.reply(`error parsing in resume at ${rawUrl} of ${candidName} `);
         console.log(error);
@@ -141,7 +153,21 @@ async function handleJobRequirement(ctx) {
         };
       }
     });
-    const results = await Promise.all(candidatePromises);
+    
+    const results = await Promise.all(candidatePromises).then(() => {
+      const updated_sheet =  UpdateSheet(
+        ctx,
+        candidatePromises
+      );
+     if (updated_sheet) {
+        ctx.reply(
+         `Processed ${modifiedSheet.length} resumes`
+       );
+     }
+      const endTime = Date.now(); // Capture end time
+      const timeTakenInSeconds = (endTime - startTime) / 1000;
+      console.log(`Processing completed in ${timeTakenInSeconds} seconds`);
+    });
     await ctx.reply(
       `Please provide percentage of candidates you want to filter`
     );
@@ -157,17 +183,13 @@ async function handleJobRequirement(ctx) {
 }
 
 async function handlefiltercandids(ctx) {
-  const args = ctx.message.text.split(' ');
-  // if (args.length < 2) {
-  //   return ctx.reply('Please provide a percentage to filter.');
-  // }
+  const args = ctx.message.text.split(" ");
 
   const percentage = parseInt(args[1]) / 100;
-  console.log(percentage)
-  if (isNaN(percentage)  || percentage > 1) {
-    return ctx.reply('Please provide a valid percentage between 1 and 100.');
+  console.log(percentage);
+  if (isNaN(percentage) || percentage > 1) {
+    return ctx.reply("Please provide a valid percentage between 1 and 100.");
   }
-
   await FilterCandids(ctx, percentage);
   ctx.session.state = State.IDLE;
 }
