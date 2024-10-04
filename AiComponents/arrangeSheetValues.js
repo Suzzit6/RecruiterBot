@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
 const fs = require('fs');
 
-  const apiKey = "AIzaSyBW9eupd9u3QIwMdwVTK51N6DlTK40yA40";
+  const apiKey = "";
   const genAI = new GoogleGenerativeAI(apiKey);
   
   const safetySettings = [
